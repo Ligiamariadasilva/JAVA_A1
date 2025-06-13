@@ -8,13 +8,13 @@ import java.util.stream.Collectors;
 
 public class CorridaController {
 
-    private static final int NUMERO_DE_ETAPAS = 4;
+    private static final int numeroEtapas = 4;
 
     public static void iniciarCorrida(List<Veiculo> veiculos, Mapa mapa, Scanner sc) {
         LogService.registrarLog("Iniciando nova simulação de corrida.");
         System.out.println("\n=============================================");
         System.out.println("🏁 A CORRIDA VAI COMEÇAR! 🏁");
-        System.out.println("Mapa: " + mapa.getNome() + " | Etapas: " + NUMERO_DE_ETAPAS);
+        System.out.println("Mapa: " + mapa.getNome() + " | Etapas: " + numeroEtapas);
         System.out.println("=============================================");
 
         String climaAtual = mapa.getClimaInicial();
@@ -22,8 +22,8 @@ public class CorridaController {
         veiculos.forEach(v -> resultados.put(v, new Resultado(v)));
 
         // Loop principal da corrida, uma iteração por etapa
-        for (int i = 1; i <= NUMERO_DE_ETAPAS; i++) {
-            System.out.println("\n--- ETAPA " + i + " / " + NUMERO_DE_ETAPAS + " ---");
+        for (int i = 1; i <= numeroEtapas; i++) {
+            System.out.println("\n--- ETAPA " + i + " / " + numeroEtapas + " ---");
             System.out.println("☀️  Clima atual: " + climaAtual.toUpperCase());
 
             // Calcula o desempenho de cada veículo na etapa
@@ -47,7 +47,7 @@ public class CorridaController {
             exibirPlacarParcial(resultados);
 
             // Se não for a última etapa, prepara para a próxima
-            if (i < NUMERO_DE_ETAPAS) {
+            if (i < numeroEtapas) {
                 System.out.println("\n--- PIT STOP DA ETAPA " + i + " ---");
 
                 // Troca de pneus

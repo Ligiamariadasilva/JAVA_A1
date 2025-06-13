@@ -27,10 +27,7 @@ public class Resultado implements Serializable {
         return desempenhosPorEtapa;
     }
     
-    /**
-     * Adiciona o desempenho de uma nova etapa e recalcula o total.
-     * @param desempenho O desempenho da etapa atual.
-     */
+    
     public void adicionarDesempenhoEtapa(int desempenho) {
         this.desempenhosPorEtapa.add(desempenho);
         this.desempenhoTotal = this.desempenhosPorEtapa.stream().mapToInt(Integer::intValue).sum();

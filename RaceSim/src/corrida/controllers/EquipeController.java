@@ -12,7 +12,11 @@ public class EquipeController {
         equipes.add(new Equipe(novoId, nome));
         repository.salvar(equipes);
     }
-    public List<Equipe> listar() { return repository.lerTodos(); }
+
+    public List<Equipe> listar() {
+        return repository.lerTodos();
+    }
+
     public boolean editar(int id, String novoNome) {
         List<Equipe> equipes = repository.lerTodos();
         Optional<Equipe> equipeOpt = equipes.stream().filter(e -> e.getId() == id).findFirst();
@@ -24,5 +28,11 @@ public class EquipeController {
         boolean removed = equipes.removeIf(e -> e.getId() == id);
         if (removed) repository.salvar(equipes);
         return removed;
+    }
+
+    public Optional<Equipe> buscarPorId(int id) {
+        return repository.lerTodos().stream()
+                .filter(equipe -> equipe.getId() == id)
+                .findFirst();
     }
 }

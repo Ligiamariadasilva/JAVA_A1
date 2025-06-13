@@ -46,9 +46,10 @@ public abstract class Veiculo implements Serializable {
         this.modelo = modelo; 
     }
 
-    @Override 
-    public String toString(){ 
-        return "ID: " + id + ", Modelo: " + modelo + ", " + piloto + ", Pneu: " + pneu; 
+    @Override
+    public String toString() {
+        String nomePiloto = (piloto != null) ? piloto.getNome() : "Sem piloto";
+        return String.format("ID: %d, Modelo: %s (Piloto: %s, Pneu: %s)", id, modelo, nomePiloto, pneu.getTipo());
     }
 
     

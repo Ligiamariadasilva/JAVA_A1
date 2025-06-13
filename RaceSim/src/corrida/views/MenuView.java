@@ -53,12 +53,31 @@ public class MenuView {
                 if (opcao == 0) break;
                 switch (opcao) {
                     case 1 -> criarPiloto();
-                    case 2 -> pilotoCtrl.listar().forEach(System.out::println);
+                    case 2 -> {
+                        System.out.println("\n--- Lista de Pilotos ---");
+                        List<Piloto> pilotos = pilotoCtrl.listar();
+                        if (pilotos.isEmpty()) {
+                            System.out.println("Nenhum piloto cadastrado.");
+                        } else {
+                            for (Piloto piloto : pilotos) {
+                                String nomeEquipe = equipeCtrl.buscarPorId(piloto.getEquipeId())
+                                        .map(Equipe::getNome) // Se encontrou, pega o nome
+                                        .orElse("Equipe não encontrada"); // Se não, usa este texto
+
+                                System.out.printf("ID: %d, Nome: %s, Equipe: %s\n",
+                                        piloto.getId(),
+                                        piloto.getNome(),
+                                        nomeEquipe);
+                            }
+                        }
+                    }
                     case 3 -> editarPiloto();
                     case 4 -> deletarPiloto();
                     default -> System.err.println("Opção inválida.");
                 }
-            } catch (EntradaInvalidaException e) { System.err.println("Erro: " + e.getMessage()); }
+            } catch (EntradaInvalidaException e) {
+                System.err.println("Erro: " + e.getMessage());
+            }
         }
     }
 
@@ -95,7 +114,7 @@ public class MenuView {
         }
     }
 
-    // --- MENU VEÍCULOS (CRUD COMPLETO) ---
+
     public void menuGerenciarVeiculos() {
         while (true) {
             System.out.println("\n--- Gerenciar Veículos ---");
@@ -138,12 +157,32 @@ public class MenuView {
         veiculoCtrl.criar(tipo, modelo, pilotoEscolhido, pneu);
         System.out.println("Veículo criado com sucesso!");
     }
-    
+
     private void listarVeiculos() {
         System.out.println("\n--- Lista de Veículos ---");
         List<Veiculo> veiculos = veiculoCtrl.listar();
-        if (veiculos.isEmpty()) { System.out.println("Nenhum veículo cadastrado."); } 
-        else { veiculos.forEach(System.out::println); }
+        if (veiculos.isEmpty()) {
+            System.out.println("Nenhum veículo cadastrado.");
+        } else {
+            for (Veiculo veiculo : veiculos) {
+                Piloto piloto = veiculo.getPiloto();
+                String nomePiloto = piloto != null ? piloto.getNome() : "N/A";
+
+                String nomeEquipe = "N/A";
+                if (piloto != null) {
+                    nomeEquipe = equipeCtrl.buscarPorId(piloto.getEquipeId())
+                            .map(Equipe::getNome)
+                            .orElse("ID de equipe inválido");
+                }
+
+                System.out.printf("Veículo ID: %d | Modelo: %s | Piloto: %s (Equipe: %s) | Pneu: %s\n",
+                        veiculo.getId(),
+                        veiculo.getModelo(),
+                        nomePiloto,
+                        nomeEquipe,
+                        veiculo.getPneu().getTipo());
+            }
+        }
     }
 
     private void editarVeiculo() throws EntradaInvalidaException {
